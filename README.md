@@ -1,8 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>James Andersen — Portfolio</title>
 <style>
   :root{
     --bg:#EFEEE8;
