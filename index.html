@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>James Andersen | Portfolio</title>
     
-    <!-- Google Fonts: Inter & JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Tailwind CSS -->
@@ -21,174 +19,211 @@
             theme: {
                 extend: {
                     colors: {
+                        // Light Mode Palette
                         light: {
-                            bg: '#FFFFFF',
-                            card: '#F8FAFC',
-                            text: '#0F172A',
-                            accent: '#0284C7',
-                            metric: '#059669'
+                            bg: '#F8FAFC',       // Clean Slate-50
+                            card: '#FFFFFF',     // Pure White
+                            text: '#0F172A',     // Slate-900
+                            border: '#E2E8F0',   // Slate-200
                         },
+                        // Dark Mode Palette
                         dark: {
-                            bg: '#0D1117',
-                            card: '#161B22',
-                            text: '#F0F6FC',
-                            accent: '#58A6FF',
-                            metric: '#2EA043'
+                            bg: '#0B1121',       // Deep Dark Blue
+                            card: '#151E32',     // Elevated Dark Blue
+                            text: '#F8FAFC',     // Slate-50
+                            border: '#1E293B',   // Slate-800
+                        },
+                        // Thematic Brand Colors (Blue, Green, Yellow)
+                        brand: {
+                            blue: '#2563EB',       // Blue-600
+                            blueHover: '#1D4ED8',  // Blue-700
+                            green: '#10B981',      // Emerald-500
+                            yellow: '#F59E0B',     // Amber-500
+                            yellowHover: '#D97706' // Amber-600
                         }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'float-fast': 'float 4s ease-in-out infinite reverse',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Base typography application */
-        body { font-family: 'Inter', sans-serif; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* Smooth theme transition */
+        /* Base transitions */
         body { transition: background-color 0.3s ease, color 0.3s ease; }
-        .card-transition { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card-transition:hover { transform: translateY(-4px); }
+        
+        /* Scroll Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Project Card Hover */
+        .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; }
+        .project-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Filter Hide Class */
+        .hide { display: none; }
+        
+        /* Custom gradient text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #2563EB, #10B981); /* Blue to Green */
+        }
     </style>
 </head>
-<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text antialiased selection:bg-light-accent selection:text-white dark:selection:bg-dark-accent">
+<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text font-sans antialiased">
 
-    <!-- Header & Navigation -->
-    <header class="fixed w-full top-0 z-50 bg-light-bg/90 dark:bg-dark-bg/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-colors">
+    <!-- Navigation Header -->
+    <header class="fixed w-full top-0 z-50 bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-md border-b border-light-border dark:border-dark-border transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Brand Label -->
-                <a href="#" class="text-xl font-bold tracking-tight text-light-accent dark:text-dark-accent">James Andersen.</a>
+                <!-- Brand -->
+                <div class="flex-shrink-0 font-bold text-xl tracking-tight text-brand-blue">
+                    <a href="#">James Andersen.</a>
+                </div>
                 
                 <!-- Desktop Nav -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#about" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors font-medium">About</a>
-                    <a href="#expertise" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors font-medium">Expertise</a>
-                    <a href="#experience" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors font-medium">Experience</a>
-                    <a href="#projects" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors font-medium">Projects</a>
-                    <a href="#contact" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors font-medium">Contact</a>
-                </nav>
-
-                <div class="flex items-center space-x-4">
+                <nav class="hidden md:flex space-x-8 items-center font-medium">
+                    <a href="#about" class="hover:text-brand-blue transition-colors">About</a>
+                    <a href="#expertise" class="hover:text-brand-blue transition-colors">Expertise</a>
+                    <a href="#experience" class="hover:text-brand-blue transition-colors">Experience</a>
+                    <a href="#projects" class="hover:text-brand-blue transition-colors">Projects</a>
+                    <a href="#contact" class="hover:text-brand-blue transition-colors">Contact</a>
+                    
                     <!-- Theme Toggle -->
-                    <button id="theme-toggle" aria-label="Toggle Dark Mode" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
-                        <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                    <button id="theme-toggle" class="p-2 rounded-full text-brand-yellow hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle Theme">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
                     </button>
+                    
                     <!-- CTA -->
-                    <a href="James_Andersen_Portfolio_2.pdf" target="_blank" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md shadow-sm text-white bg-light-accent hover:bg-blue-700 dark:bg-dark-accent dark:hover:bg-blue-500 transition-colors">
-                        <i class="fa-solid fa-download mr-2"></i> Download Resume
+                    <a href="James_Andersen_Portfolio_2.pdf" target="_blank" class="px-4 py-2 rounded-md bg-brand-blue text-white font-semibold hover:bg-brand-blueHover hover:shadow-lg hover:shadow-brand-blue/30 transition-all">
+                        Resume <i class="fas fa-download ml-1 text-sm"></i>
                     </a>
-                </div>
+                </nav>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="pt-24 pb-12">
-        
+    <main>
         <!-- Hero Section -->
-        <section id="hero" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
-            <div class="md:w-2/3">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">James Andersen</h1>
-                <h2 class="text-xl md:text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-8">
+        <section class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[80vh] flex flex-col justify-center items-center text-center overflow-hidden">
+            <!-- Animated Background Blobs -->
+            <div class="absolute top-20 left-10 w-64 h-64 bg-brand-blue/20 dark:bg-brand-blue/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float-slow -z-10"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-brand-green/20 dark:bg-brand-green/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float-fast -z-10"></div>
+            <div class="absolute -bottom-10 left-1/2 w-80 h-80 bg-brand-yellow/20 dark:bg-brand-yellow/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float-slow -z-10"></div>
+
+            <div class="animate-on-scroll">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
+                    <span class="text-gradient">James Andersen</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
                     Information Systems | Data Analytics | Business Intelligence | Big Data
-                </h2>
+                </p>
                 
                 <!-- Quick Contact Strip -->
-                <div class="flex flex-wrap gap-4 justify-center md:justify-start font-mono text-sm text-gray-700 dark:text-gray-300">
-                    <a href="mailto:jamesandersen112@gmail.com" class="flex items-center hover:text-light-accent dark:hover:text-dark-accent transition-colors">
-                        <i class="fa-solid fa-envelope mr-2"></i> jamesandersen112@gmail.com
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-8 font-mono text-sm bg-light-card dark:bg-dark-card py-3 px-6 rounded-full shadow-sm border border-light-border dark:border-dark-border inline-flex">
+                    <a href="mailto:jamesandersen112@gmail.com" class="flex items-center gap-2 hover:text-brand-blue transition-colors">
+                        <i class="fas fa-envelope text-brand-yellow"></i> jamesandersen112@gmail.com
                     </a>
-                    <a href="tel:+6285172425514" class="flex items-center hover:text-light-accent dark:hover:text-dark-accent transition-colors">
-                        <i class="fa-solid fa-phone mr-2"></i> +62 851-7242-5514
+                    <a href="tel:+6285172425514" class="flex items-center gap-2 hover:text-brand-blue transition-colors">
+                        <i class="fas fa-phone text-brand-green"></i> +62 851-7242-5514
                     </a>
-                    <a href="https://linkedin.com/in/james-andersen-06261a270" target="_blank" class="flex items-center hover:text-light-accent dark:hover:text-dark-accent transition-colors">
-                        <i class="fa-brands fa-linkedin mr-2"></i> LinkedIn
+                    <a href="https://linkedin.com/in/james-andersen-06261a270" target="_blank" class="flex items-center gap-2 hover:text-brand-blue transition-colors">
+                        <i class="fab fa-linkedin text-brand-blue"></i> LinkedIn
                     </a>
-                    <a href="https://github.com/jmsand12" target="_blank" class="flex items-center hover:text-light-accent dark:hover:text-dark-accent transition-colors">
-                        <i class="fa-brands fa-github mr-2"></i> GitHub
+                    <a href="https://github.com/jmsand12" target="_blank" class="flex items-center gap-2 hover:text-brand-blue transition-colors">
+                        <i class="fab fa-github text-gray-800 dark:text-white"></i> GitHub
                     </a>
                 </div>
-            </div>
-            <div class="mt-10 md:mt-0 md:w-1/3 flex justify-center">
-                <!-- Decorative element or optional profile photo placeholder -->
-                <div class="w-48 h-48 rounded-full bg-gradient-to-tr from-light-accent to-light-metric dark:from-dark-accent dark:to-dark-metric opacity-20 blur-2xl absolute -z-10"></div>
             </div>
         </section>
 
-        <!-- About & Expertise -->
-        <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-200 dark:border-gray-800">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                
-                <!-- Professional Summary -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-6 border-l-4 border-light-accent dark:border-dark-accent pl-3">Professional Summary</h3>
-                    <p class="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
-                        Information Systems graduate from Multimedia Nusantara University with expertise in Data Analytics, Business Intelligence, and Big Data.
-                    </p>
-                    <p class="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
-                        Proficient in SQL, Python, Power BI, and Pyspark.
-                    </p>
-                    <p class="text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                        Experienced in building data pipelines, analytical dashboards, machine learning models, and information systems that drive business insights.
-                    </p>
-                </div>
-
-                <!-- Skill Badges -->
-                <div id="expertise">
-                    <h3 class="text-2xl font-bold mb-6 border-l-4 border-light-accent dark:border-dark-accent pl-3">Technical Expertise</h3>
+        <!-- About & Technical Expertise -->
+        <section id="about" class="py-20 bg-light-card dark:bg-dark-card border-y border-light-border dark:border-dark-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Data Analytics</h4>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Python</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">SQL</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Data Visualization</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Pandas</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">NumPy</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Matplotlib</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Statistics</span>
+                    <!-- Professional Summary -->
+                    <div class="animate-on-scroll">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <span class="w-8 h-1 bg-brand-yellow rounded-full"></span> Professional Summary
+                        </h2>
+                        <div class="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                            <p>Information Systems graduate from Multimedia Nusantara University with expertise in Data Analytics, Business Intelligence, and Big Data.</p>
+                            <p>Proficient in SQL, Python, Power BI, and PySpark.</p>
+                            <p>Experienced in building data pipelines, analytical dashboards, machine learning models, and information systems that drive business insights.</p>
                         </div>
                     </div>
+                    
+                    <!-- Skill Badges -->
+                    <div id="expertise" class="animate-on-scroll">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <span class="w-8 h-1 bg-brand-green rounded-full"></span> Technical Expertise
+                        </h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-sm font-bold uppercase tracking-wider mb-3 text-brand-blue">Data Analytics</h3>
+                                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">Python</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">SQL</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">Data Visualization</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">Pandas</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">NumPy</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">Matplotlib</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-blue/30 rounded-md shadow-sm hover:border-brand-blue transition-colors">Statistics</span>
+                                </div>
+                            </div>
 
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Business Intelligence</h4>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Power BI</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Power Query</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">DAX</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Tableau</span>
-                        </div>
-                    </div>
+                            <div>
+                                <h3 class="text-sm font-bold uppercase tracking-wider mb-3 text-brand-yellow">Business Intelligence</h3>
+                                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-yellow/30 rounded-md shadow-sm hover:border-brand-yellow transition-colors">Power BI</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-yellow/30 rounded-md shadow-sm hover:border-brand-yellow transition-colors">Power Query</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-yellow/30 rounded-md shadow-sm hover:border-brand-yellow transition-colors">DAX</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-yellow/30 rounded-md shadow-sm hover:border-brand-yellow transition-colors">Tableau</span>
+                                </div>
+                            </div>
 
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Database, Big Data & ML</h4>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">PostgreSQL</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">MySQL</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">PySpark</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Spark SQL</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">JDBC</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Scikit-learn</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Gradient Boosted Tree</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">SHAP</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">RAG</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">LLM</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2">Development & Tools</h4>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">PHP</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Git</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Jupyter Notebook</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">VS Code</span>
-                            <span class="px-3 py-1 bg-light-card dark:bg-dark-card rounded shadow-sm border border-gray-200 dark:border-gray-700">Figma</span>
+                            <div>
+                                <h3 class="text-sm font-bold uppercase tracking-wider mb-3 text-brand-green">Database, Big Data & ML</h3>
+                                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">PostgreSQL</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">MySQL</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">PySpark</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">Spark SQL</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">JDBC</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">Scikit-learn</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">Gradient Boosted Tree</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">SHAP</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">RAG</span>
+                                    <span class="px-3 py-1.5 bg-light-bg dark:bg-dark-bg border border-brand-green/30 rounded-md shadow-sm hover:border-brand-green transition-colors">LLM</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,448 +231,284 @@
         </section>
 
         <!-- Professional Experience -->
-        <section id="experience" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-200 dark:border-gray-800">
-            <h3 class="text-3xl font-bold mb-10 text-center">Professional Experience</h3>
+        <section id="experience" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-12 text-center flex items-center justify-center gap-3 animate-on-scroll">
+                <span class="w-8 h-1 bg-brand-blue rounded-full"></span> Professional Experience <span class="w-8 h-1 bg-brand-blue rounded-full"></span>
+            </h2>
             
-            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-bHere is the complete, single-file HTML solution for your landing page based on the PRD. 
-
-It utilizes **Tailwind CSS** (via CDN for immediate plug-and-play functionality) to implement the exact design system, including the custom Light/Dark mode palettes, responsive layouts, and typography constraints. Vanilla JavaScript handles the theme persistence, clipboard copy functions, and project filtering.
-
-Save the code below as an `index.html` file and open it in any browser.
-
-```html
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>James Andersen | Portfolio</title>
-    
-    <!-- Typography -->
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap)" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
-
-    <!-- Tailwind CSS -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        light: {
-                            bg: '#FFFFFF',
-                            card: '#F8FAFC',
-                            text: '#0F172A',
-                            accent: '#0284C7',
-                            highlight: '#059669'
-                        },
-                        dark: {
-                            bg: '#0D1117',
-                            card: '#161B22',
-                            text: '#F0F6FC',
-                            accent: '#58A6FF',
-                            highlight: '#2EA043'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Smooth transition for theme toggling */
-        body { transition: background-color 0.3s ease, color 0.3s ease; }
-        .project-card { transition: transform 0.2s ease, opacity 0.3s ease; }
-        .project-card:hover { transform: translateY(-5px); }
-        .hide { display: none; }
-    </style>
-</head>
-<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text font-sans antialiased">
-
-    <!-- Header & Navigation -->
-    <header class="fixed w-full top-0 z-50 bg-light-bg/90 dark:bg-dark-bg/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Brand -->
-                <div class="flex-shrink-0 font-bold text-xl tracking-tight text-light-accent dark:text-dark-accent">
-                    <a href="#">James Andersen.</a>
+            <div class="space-y-8 max-w-4xl mx-auto">
+                <!-- Job 1 -->
+                <div class="animate-on-scroll p-8 rounded-2xl bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border shadow-lg shadow-brand-blue/5">
+                    <div class="flex flex-col md:flex-row justify-between mb-4 border-b border-light-border dark:border-dark-border pb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-brand-blue">Web Developer</h3>
+                            <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">UMN Student Development</p>
+                        </div>
+                        <div class="mt-2 md:mt-0 font-mono text-sm px-4 py-2 rounded-full bg-brand-yellow/10 text-brand-yellow font-bold self-start">
+                            AUG 2025 – DEC 2025
+                        </div>
+                    </div>
+                    <ul class="list-none space-y-3 text-gray-700 dark:text-gray-300">
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-green mt-1"></i> Developed internal ticketing system for Student Engagement with dashboard KPI and trend visualizations.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-green mt-1"></i> Implemented using PHP, PDO, MySQL, JavaScript, Chart.js, and XAMPP.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-green mt-1"></i> Participated in full SDLC: planning, analysis, design, implementation, testing, deployment, and maintenance.</li>
+                    </ul>
                 </div>
+
+                <!-- Job 2 -->
+                <div class="animate-on-scroll p-8 rounded-2xl bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border shadow-lg shadow-brand-green/5">
+                    <div class="flex flex-col md:flex-row justify-between mb-4 border-b border-light-border dark:border-dark-border pb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-brand-green">Junior Data Scientist</h3>
+                            <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">VINIX7</p>
+                        </div>
+                        <div class="mt-2 md:mt-0 font-mono text-sm px-4 py-2 rounded-full bg-brand-yellow/10 text-brand-yellow font-bold self-start">
+                            FEB 2025 – JUN 2025
+                        </div>
+                    </div>
+                    <ul class="list-none space-y-3 text-gray-700 dark:text-gray-300">
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-blue mt-1"></i> Apply data acquisition, cleaning, and exploratory data analysis (EDA) techniques using Excel and other tools.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-blue mt-1"></i> Create interactive data visualizations and compile business insights using Business Intelligence (BI) principles.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-blue mt-1"></i> Work on real case studies as part of the final project, integrating all data science learning materials.</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check-circle text-brand-blue mt-1"></i> Produce effective data-driven infographics and storytelling to communicate insights to stakeholders.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects -->
+        <section id="projects" class="py-20 bg-light-card dark:bg-dark-card border-t border-light-border dark:border-dark-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-3 animate-on-scroll">
+                    <span class="w-8 h-1 bg-brand-yellow rounded-full"></span> Featured Projects <span class="w-8 h-1 bg-brand-yellow rounded-full"></span>
+                </h2>
                 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#about" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors">About</a>
-                    <a href="#expertise" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors">Expertise</a>
-                    <a href="#experience" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors">Experience</a>
-                    <a href="#projects" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors">Projects</a>
-                    <a href="#contact" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors">Contact</a>
+                <!-- Filters -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12 font-mono text-sm animate-on-scroll">
+                    <button class="filter-btn active px-6 py-2 rounded-full border-2 border-brand-blue bg-brand-blue text-white transition-all shadow-md" data-filter="all">All Projects</button>
+                    <button class="filter-btn px-6 py-2 rounded-full border-2 border-light-border dark:border-dark-border hover:border-brand-green hover:text-brand-green transition-all" data-filter="data">Data / ML</button>
+                    <button class="filter-btn px-6 py-2 rounded-full border-2 border-light-border dark:border-dark-border hover:border-brand-yellow hover:text-brand-yellow transition-all" data-filter="web">Web / UI</button>
+                </div>
+
+                <!-- Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle Dark Mode">
-                        <i class="fas fa-moon dark:hidden text-light-text"></i>
-                        <i class="fas fa-sun hidden dark:block text-dark-text"></i>
-                    </button>
-                    
-                    <!-- CTA -->
-                    <a href="#" class="px-4 py-2 rounded-md bg-light-accent text-white dark:bg-dark-accent dark:text-dark-bg font-semibold hover:opacity-90 transition-opacity">
-                        Download Resume
-                    </a>
-                </nav>
+                    <!-- Project 1 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="data">
+                        <img src="https://placehold.co/600x400/2563EB/FFFFFF?text=Customer+Behavior+Dashboard" alt="Customer Behavior Analysis Dashboard" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Customer Behavior Analysis</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Analyze customer shopping behavior to identify purchasing patterns, product preferences, discount impact, subscription opportunities, and customer segments.</p>
+                            <div class="font-mono text-xs text-brand-green font-bold">
+                                Python, PostgreSQL, SQL, Power BI
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center gap-4">
-                    <button id="theme-toggle-mobile" class="p-2">
-                        <i class="fas fa-moon dark:hidden text-light-text"></i>
-                        <i class="fas fa-sun hidden dark:block text-dark-text"></i>
-                    </button>
-                    <button class="text-2xl" id="mobile-menu-btn">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <!-- Project 2 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="data">
+                        <img src="https://placehold.co/600x400/10B981/FFFFFF?text=FraudShield+Dashboard" alt="FraudShield Dashboard" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">FraudShield</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Processed 7.48M+ Transactions at scale with 17K+ Rows/Second throughput. Achieved 99.3% ROC-AUC and 96.3% F1-Score.</p>
+                            <div class="font-mono text-xs text-brand-green font-bold">
+                                PySpark, Apache Spark, Gradient Boosted Tree, SHAP
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="data">
+                        <img src="https://placehold.co/600x400/F59E0B/FFFFFF?text=TANYAVARA+Chatbot" alt="TANYAVARA Interface" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">TANYAVARA</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">RAG-Based University Information Chatbot answering queries with grounded, document-backed responses that eliminate hallucination.</p>
+                            <div class="font-mono text-xs text-brand-green font-bold leading-relaxed">
+                                LLaMA 3.1 8B, BM25 + Embeddings, Streamlit
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="web">
+                        <img src="https://placehold.co/600x400/2563EB/FFFFFF?text=Internal+Ticketing+KPI" alt="Internal Ticketing Dashboard" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Internal Ticketing System</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Develop an internal ticketing system for UMN Student Service, Student Support, and Student Development with real-time operational visibility.</p>
+                            <div class="font-mono text-xs text-brand-blue font-bold">
+                                PHP, PDO, MySQL, JavaScript, Chart.js, XAMPP
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="web">
+                        <img src="https://placehold.co/600x400/F59E0B/FFFFFF?text=Campus+Supplies+UI" alt="Campus Supplies App UI" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Campus Office Supplies Request</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Enhance campus office supplies request system by improving usability, workflow, and transparency through UI/UX design and RAD-based development.</p>
+                            <div class="font-mono text-xs text-brand-blue font-bold">
+                                Figma, UI/UX, RAD, UAT
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="animate-on-scroll project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-2xl overflow-hidden border border-light-border dark:border-dark-border" data-category="data">
+                        <img src="https://placehold.co/600x400/10B981/FFFFFF?text=Stroke+Risk+Analysis" alt="Stroke Risk Analysis Report" loading="lazy" class="w-full h-48 object-cover border-b border-light-border dark:border-dark-border">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Stroke Risk Classification Analysis</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Pruned Decision Tree achieved 94.78% accuracy, a +2.78% Accuracy Difference over previous research. Selected Feature: BMI + Average Glucose Level.</p>
+                            <div class="font-mono text-xs text-brand-green font-bold">
+                                Python, Pandas, Scikit-learn
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
-        <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">James Andersen</h1>
-        <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl">
-            Information Systems | Data Analytics | Business Intelligence | Big Data
-        </p>
-        
-        <!-- Quick Contact Strip -->
-        <div class="flex flex-wrap justify-center gap-4 sm:gap-8 font-mono text-sm">
-            <a href="mailto:jamesandersen112@gmail.com" class="flex items-center gap-2 hover:text-light-accent dark:hover:text-dark-accent">
-                <i class="fas fa-envelope"></i> jamesandersen112@gmail.com
-            </a>
-            <a href="tel:+6285172425514" class="flex items-center gap-2 hover:text-light-accent dark:hover:text-dark-accent">
-                <i class="fas fa-phone"></i> +62 851-7242-5514
-            </a>
-            <a href="[https://linkedin.com/in/james-andersen-06261a270](https://linkedin.com/in/james-andersen-06261a270)" target="_blank" class="flex items-center gap-2 hover:text-light-accent dark:hover:text-dark-accent">
-                <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="[https://github.com/jmsand12](https://github.com/jmsand12)" target="_blank" class="flex items-center gap-2 hover:text-light-accent dark:hover:text-dark-accent">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-        </div>
-    </section>
-
-    <!-- About & Technical Expertise -->
-    <section id="about" class="py-16 bg-light-card dark:bg-dark-card border-y border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <!-- Professional Summary -->
-                <div>
-                    <h2 class="text-3xl font-bold mb-6 text-light-accent dark:text-dark-accent">Professional Summary</h2>
-                    <div class="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-                        <p>Information Systems graduate from Multimedia Nusantara University with expertise in Data Analytics, Business Intelligence, and Big Data.</p>
-                        <p>Proficient in SQL, Python, Power BI, and PySpark.</p>
-                        <p>Experienced in building data pipelines, analytical dashboards, machine learning models, and information systems that drive business insights.</p>
-                    </div>
-                </div>
-                
-                <!-- Skill Badges -->
-                <div id="expertise">
-                    <h2 class="text-3xl font-bold mb-6 text-light-accent dark:text-dark-accent">Technical Expertise</h2>
-                    
-                    <div class="mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider mb-2">Data Analytics</h3>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Python</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">SQL</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Data Visualization</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Pandas</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">NumPy</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Matplotlib</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Statistics</span>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider mb-2">Business Intelligence</h3>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Power BI</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Power Query</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">DAX</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Tableau</span>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider mb-2">Database, Big Data & ML</h3>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">PostgreSQL</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">MySQL</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">PySpark</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Spark SQL</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">JDBC</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Scikit-learn</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Gradient Boosted Tree</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">SHAP</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">RAG</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">LLM</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-bold uppercase tracking-wider mb-2">Development & Tools</h3>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs">
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">PHP</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Git</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Jupyter Notebook</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">VS Code</span>
-                            <span class="px-3 py-1 bg-gray-200 dark:bg-gray-800 rounded-full">Figma</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Professional Experience -->
-    <section id="experience" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold mb-10 text-center text-light-accent dark:text-dark-accent">Professional Experience</h2>
-        
-        <div class="space-y-8">
-            <!-- Job 1 -->
-            <div class="p-6 rounded-xl bg-light-card dark:bg-dark-card border border-gray-200 dark:border-gray-800 shadow-sm">
-                <div class="flex flex-col md:flex-row justify-between mb-4">
-                    <div>
-                        <h3 class="text-xl font-bold">Web Developer</h3>
-                        <p class="text-light-accent dark:text-dark-accent font-semibold">UMN Student Development</p>
-                    </div>
-                    <div class="mt-2 md:mt-0 font-mono text-sm text-gray-500 dark:text-gray-400">
-                        AUG 2025 – DEC 2025
-                    </div>
-                </div>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                    <li>Developed internal ticketing system for Student Engagement with dashboard KPI and trend visualizations.</li>
-                    <li>Implemented using PHP, PDO, MySQL, JavaScript, Chart.js, and XAMPP.</li>
-                    <li>Participated in full SDLC: planning, analysis, design, implementation, testing, deployment, and maintenance.</li>
-                </ul>
-            </div>
-
-            <!-- Job 2 -->
-            <div class="p-6 rounded-xl bg-light-card dark:bg-dark-card border border-gray-200 dark:border-gray-800 shadow-sm">
-                <div class="flex flex-col md:flex-row justify-between mb-4">
-                    <div>
-                        <h3 class="text-xl font-bold">Junior Data Scientist</h3>
-                        <p class="text-light-accent dark:text-dark-accent font-semibold">VINIX7</p>
-                    </div>
-                    <div class="mt-2 md:mt-0 font-mono text-sm text-gray-500 dark:text-gray-400">
-                        FEB 2025 – JUN 2025
-                    </div>
-                </div>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                    <li>Apply data acquisition, cleaning, and exploratory data analysis (EDA) techniques using Excel and other tools.</li>
-                    <li>Create interactive data visualizations and compile business insights using Business Intelligence (BI) principles.</li>
-                    <li>Work on real case studies as part of the final project, integrating all data science learning materials.</li>
-                    <li>Produce effective data-driven infographics and storytelling to communicate insights to stakeholders.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Projects -->
-    <section id="projects" class="py-20 bg-light-card dark:bg-dark-card border-t border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-8 text-center text-light-accent dark:text-dark-accent">Featured Projects</h2>
-            
-            <!-- Filters -->
-            <div class="flex flex-wrap justify-center gap-3 mb-10 font-mono text-sm">
-                <button class="filter-btn active px-4 py-2 rounded border border-light-accent dark:border-dark-accent text-light-accent dark:text-dark-accent hover:bg-light-accent hover:text-white dark:hover:bg-dark-accent dark:hover:text-dark-bg transition-colors" data-filter="all">All</button>
-                <button class="filter-btn px-4 py-2 rounded border border-gray-300 dark:border-gray-700 hover:border-light-accent dark:hover:border-dark-accent transition-colors" data-filter="data">Data / ML</button>
-                <button class="filter-btn px-4 py-2 rounded border border-gray-300 dark:border-gray-700 hover:border-light-accent dark:hover:border-dark-accent transition-colors" data-filter="web">Web / UI</button>
-            </div>
-
-            <!-- Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Project 1 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="data">
-                    <!-- Note: Placeholders used for required PDF extracts. Replace src with actual webp paths. -->
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=Customer+Behavior+Dashboard](https://placehold.co/600x400/0F172A/FFFFFF?text=Customer+Behavior+Dashboard)" alt="Customer Behavior Analysis Dashboard" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Customer Behavior Analysis</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Analyze customer shopping behavior to identify purchasing patterns, product preferences, discount impact, subscription opportunities, and customer segments.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight">
-                            Python, PostgreSQL, SQL, Power BI
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="data">
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=FraudShield+Dashboard](https://placehold.co/600x400/0F172A/FFFFFF?text=FraudShield+Dashboard)" alt="FraudShield Dashboard" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">FraudShield</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Processed 7.48M+ Transactions at scale with 17K+ Rows/Second throughput. Achieved 99.3% ROC-AUC and 96.3% F1-Score.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight">
-                            PySpark, Apache Spark, Gradient Boosted Tree, SHAP, PostgreSQL
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="data">
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=TANYAVARA+Chatbot](https://placehold.co/600x400/0F172A/FFFFFF?text=TANYAVARA+Chatbot)" alt="TANYAVARA Interface" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">TANYAVARA</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">RAG-Based University Information Chatbot answering queries with grounded, document-backed responses that eliminate hallucination.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight leading-relaxed">
-                            LLaMA 3.1 8B, BM25 + Embeddings, PyMuPDF, MarianMT, Sentence Transformers, Streamlit
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="web">
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=Internal+Ticketing+KPI](https://placehold.co/600x400/0F172A/FFFFFF?text=Internal+Ticketing+KPI)" alt="Internal Ticketing Dashboard" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Internal Ticketing System</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Develop an internal ticketing system for UMN Student Service, Student Support, and Student Development with real-time operational visibility.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight">
-                            PHP, PDO, MySQL, JavaScript, Chart.js, XAMPP
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 5 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="web">
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=Campus+Supplies+UI](https://placehold.co/600x400/0F172A/FFFFFF?text=Campus+Supplies+UI)" alt="Campus Supplies App UI" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Campus Office Supplies Request</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Enhance campus office supplies request system by improving usability, workflow, and transparency through UI/UX design and RAD-based development.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight">
-                            Figma, UI/UX, RAD, UAT
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 6 -->
-                <div class="project-card flex flex-col bg-light-bg dark:bg-dark-bg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm" data-category="data">
-                    <img src="[https://placehold.co/600x400/0F172A/FFFFFF?text=Stroke+Risk+Analysis](https://placehold.co/600x400/0F172A/FFFFFF?text=Stroke+Risk+Analysis)" alt="Stroke Risk Analysis Report" loading="lazy" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2">Stroke Risk Classification Analysis</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Pruned Decision Tree achieved 94.78% accuracy, a +2.78% Accuracy Difference over previous research. Selected Feature: BMI + Average Glucose Level.</p>
-                        <div class="font-mono text-xs text-light-highlight dark:text-dark-highlight">
-                            Python, Pandas, Scikit-learn, Jupyter Notebook
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer & Contact -->
-    <footer id="contact" class="py-16 border-t border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-10 text-center text-light-accent dark:text-dark-accent">Connect with me!</h2>
+    <footer id="contact" class="py-20 border-t border-light-border dark:border-dark-border relative overflow-hidden">
+        <!-- Decorative blob for footer -->
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-brand-blue/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl font-bold mb-12 text-center animate-on-scroll">Let's Connect</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                 <!-- Direct Contact Info -->
-                <div class="space-y-6">
-                    <p class="text-gray-600 dark:text-gray-400 mb-8">Always open to discussing data opportunities, engineering roles, and collaborative projects. Feel free to reach out via the form or directly using the information below.</p>
+                <div class="space-y-6 animate-on-scroll">
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                        Always open to discussing data opportunities, engineering roles, and collaborative projects. Feel free to reach out via the form or directly using the information below.
+                    </p>
                     
                     <div class="space-y-4 font-mono">
-                        <div class="flex items-center justify-between p-4 bg-light-card dark:bg-dark-card rounded border border-gray-200 dark:border-gray-800">
-                            <div>
-                                <span class="block text-xs text-gray-500 uppercase">Name</span>
-                                <strong>James Andersen</strong>
+                        <div class="flex items-center justify-between p-5 bg-light-card dark:bg-dark-card rounded-xl border border-light-border dark:border-dark-border shadow-sm hover:border-brand-blue transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Email</span>
+                                    <a href="mailto:jamesandersen112@gmail.com" class="hover:text-brand-blue font-semibold">jamesandersen112@gmail.com</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-light-card dark:bg-dark-card rounded border border-gray-200 dark:border-gray-800">
-                            <div>
-                                <span class="block text-xs text-gray-500 uppercase">Email</span>
-                                <a href="mailto:jamesandersen112@gmail.com" class="hover:text-light-accent">jamesandersen112@gmail.com</a>
-                            </div>
-                            <button onclick="copyToClipboard('jamesandersen112@gmail.com')" class="text-gray-500 hover:text-light-accent dark:hover:text-dark-accent" title="Copy Email">
-                                <i class="fas fa-copy"></i>
+                            <button onclick="copyToClipboard('jamesandersen112@gmail.com')" class="text-gray-400 hover:text-brand-blue transition-colors" title="Copy Email">
+                                <i class="fas fa-copy text-lg"></i>
                             </button>
                         </div>
-                        <div class="flex items-center justify-between p-4 bg-light-card dark:bg-dark-card rounded border border-gray-200 dark:border-gray-800">
-                            <div>
-                                <span class="block text-xs text-gray-500 uppercase">Phone</span>
-                                <a href="tel:+6285172425514" class="hover:text-light-accent">+62 851-7242-5514</a>
+
+                        <div class="flex items-center justify-between p-5 bg-light-card dark:bg-dark-card rounded-xl border border-light-border dark:border-dark-border shadow-sm hover:border-brand-green transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center text-brand-green">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Phone</span>
+                                    <a href="tel:+6285172425514" class="hover:text-brand-green font-semibold">+62 851-7242-5514</a>
+                                </div>
                             </div>
-                            <button onclick="copyToClipboard('+6285172425514')" class="text-gray-500 hover:text-light-accent dark:hover:text-dark-accent" title="Copy Phone">
-                                <i class="fas fa-copy"></i>
+                            <button onclick="copyToClipboard('+6285172425514')" class="text-gray-400 hover:text-brand-green transition-colors" title="Copy Phone">
+                                <i class="fas fa-copy text-lg"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Contact Form -->
-                <form class="space-y-4" onsubmit="event.preventDefault(); alert('Message feature is a visual placeholder.');">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Your Name</label>
-                        <input type="text" required class="w-full px-4 py-2 rounded bg-light-card dark:bg-dark-card border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Email Address</label>
-                        <input type="email" required class="w-full px-4 py-2 rounded bg-light-card dark:bg-dark-card border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Message</label>
-                        <textarea rows="4" required class="w-full px-4 py-2 rounded bg-light-card dark:bg-dark-card border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"></textarea>
-                    </div>
-                    <button type="submit" class="w-full px-4 py-2 rounded-md bg-light-accent text-white dark:bg-dark-accent dark:text-dark-bg font-semibold hover:opacity-90 transition-opacity">
-                        Send Message
-                    </button>
-                </form>
+                <!-- Functional Contact Form (Triggers Email Client) -->
+                <div class="animate-on-scroll bg-light-card dark:bg-dark-card p-8 rounded-2xl border border-light-border dark:border-dark-border shadow-lg">
+                    <form id="functional-contact-form" class="space-y-5">
+                        <div>
+                            <label for="sender-name" class="block text-sm font-semibold mb-2">Your Name</label>
+                            <input type="text" id="sender-name" required class="w-full px-4 py-3 rounded-lg bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-shadow">
+                        </div>
+                        <div>
+                            <label for="sender-email" class="block text-sm font-semibold mb-2">Email Address</label>
+                            <input type="email" id="sender-email" required class="w-full px-4 py-3 rounded-lg bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-shadow">
+                        </div>
+                        <div>
+                            <label for="sender-message" class="block text-sm font-semibold mb-2">Message</label>
+                            <textarea id="sender-message" rows="4" required class="w-full px-4 py-3 rounded-lg bg-light-bg dark:bg-dark-bg border border-light-border dark:border-dark-border focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-shadow"></textarea>
+                        </div>
+                        <button type="submit" class="w-full px-6 py-3 rounded-lg bg-brand-blue text-white font-bold text-lg hover:bg-brand-blueHover shadow-md hover:shadow-xl hover:shadow-brand-blue/30 transition-all flex justify-center items-center gap-2">
+                            Send Message <i class="fas fa-paper-plane text-sm"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
             
-            <div class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500">
-                &copy; 2026 James Andersen. All rights reserved. Built with precision and care.
+            <div class="mt-20 pt-8 border-t border-light-border dark:border-dark-border flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 font-mono">
+                <p>&copy; 2026 James Andersen. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0 text-xl">
+                    <a href="https://linkedin.com/in/james-andersen-06261a270" target="_blank" class="hover:text-brand-blue transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/jmsand12" target="_blank" class="hover:text-brand-blue transition-colors"><i class="fab fa-github"></i></a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Interactive Scripts -->
     <script>
-        // 1. Theme Persistence (localStorage)
+        // 1. Theme Initialization (Force Light Mode Default)
         const htmlElement = document.documentElement;
-        const themeToggles = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+        const themeToggle = document.getElementById('theme-toggle');
         
-        // Check local storage or system preferences on load
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        // If theme is explicitly saved as dark, use it. Otherwise default to Light.
+        if (localStorage.getItem('theme') === 'dark') {
             htmlElement.classList.add('dark');
         } else {
             htmlElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
         }
 
-        // Toggle Event Listeners
-        themeToggles.forEach(btn => {
-            btn.addEventListener('click', () => {
-                htmlElement.classList.toggle('dark');
-                if (htmlElement.classList.contains('dark')) {
-                    localStorage.theme = 'dark';
-                } else {
-                    localStorage.theme = 'light';
-                }
-            });
+        // Toggle Event Listener
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
         });
 
-        // 2. Interactive Filtering for Projects
+        // 2. Scroll Animations using IntersectionObserver
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Stop observing once animated
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+            scrollObserver.observe(el);
+        });
+
+        // 3. Interactive Filtering for Projects
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Reset active styling
+                // Reset active styles
                 filterBtns.forEach(b => {
-                    b.classList.remove('active', 'border-light-accent', 'dark:border-dark-accent', 'text-light-accent', 'dark:text-dark-accent');
-                    b.classList.add('border-gray-300', 'dark:border-gray-700');
+                    b.classList.remove('bg-brand-blue', 'text-white', 'border-brand-blue');
+                    b.classList.add('border-light-border', 'dark:border-dark-border', 'text-light-text', 'dark:text-dark-text');
                 });
-                // Set active styling
-                btn.classList.add('active', 'border-light-accent', 'dark:border-dark-accent', 'text-light-accent', 'dark:text-dark-accent');
-                btn.classList.remove('border-gray-300', 'dark:border-gray-700');
+                // Set active style for clicked button
+                btn.classList.add('bg-brand-blue', 'text-white', 'border-brand-blue');
+                btn.classList.remove('border-light-border', 'dark:border-dark-border', 'text-light-text', 'dark:text-dark-text');
 
                 const filter = btn.getAttribute('data-filter');
 
@@ -653,7 +524,7 @@ Save the code below as an `index.html` file and open it in any browser.
             });
         });
 
-        // 3. Clipboard Copy Function
+        // 4. Clipboard Copy Function
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert(`Copied to clipboard: ${text}`);
@@ -661,6 +532,24 @@ Save the code below as an `index.html` file and open it in any browser.
                 console.error('Failed to copy: ', err);
             });
         }
+
+        // 5. Functional Contact Form (Opens Email Client)
+        document.getElementById('functional-contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('sender-name').value;
+            const email = document.getElementById('sender-email').value;
+            const message = document.getElementById('sender-message').value;
+            
+            // Format email contents
+            const toEmail = "jamesandersen112@gmail.com";
+            const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+            const body = encodeURIComponent(`Hello James,\n\nYou have received a new message from your portfolio website.\n\nFrom: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n---\nSent via James Andersen Web Portfolio.`);
+            
+            // Trigger mailto link
+            window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
+        });
     </script>
 </body>
 </html>
